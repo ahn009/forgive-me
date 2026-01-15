@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Zohaib Protocol | Digital Peace Offering</title>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Outfit:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #6366f1;
+            --glass: rgba(255, 255, 255, 0.02);
+        }
+        body {
+            background: #030303;
+            font-family: 'Outfit', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        .title-font { font-family: 'Fredoka One', cursive; }
+        
+        #particle-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+        }
+
+        .glass-panel {
+            background: var(--glass);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 40px;
+        }
+
+        .text-gradient {
+            background: linear-gradient(to bottom, #fff, #64748b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .magnetic-wrap { display: inline-block; transition: transform 0.1s ease-out; }
+
+        .checkpoint {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .checkpoint.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-hint {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Global Progress -->
+    <div class="fixed top-0 left-0 w-full h-1 z-[100] bg-white/5">
+        <div id="scroll-bar" class="h-full bg-indigo-500 w-0 shadow-[0_0_20px_#6366f1]"></div>
+    </div>
+
+    <!-- HUD Overlay -->
+    <div class="fixed top-8 left-8 z-50 mix-blend-difference">
+        <p class="text-[10px] tracking-[0.5em] text-white/50 uppercase font-bold">Bond Restoration: <span id="percent-hud">0%</span></p>
+    </div>
+
+    <!-- Section 1: Introduction -->
+    <section class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+        <h1 class="title-font text-8xl md:text-[12rem] tracking-tighter opacity-0" id="hero-title">Hey Zohaib.</h1>
+        <p class="text-xl md:text-3xl font-light text-slate-400 mt-4 opacity-0" id="hero-subtitle">You are entering a digital peace treaty.</p>
+        <div class="mt-24 scroll-hint opacity-0" id="hero-hint">
+            <p class="text-xs tracking-[0.3em] uppercase text-indigo-400 mb-4">Scroll to Begin Decryption</p>
+            <div class="w-px h-16 bg-gradient-to-b from-indigo-500 to-transparent mx-auto"></div>
+        </div>
+    </section>
+
+    <!-- Section 2: The Apology Core -->
+    <section class="min-h-screen flex items-center justify-center p-6 py-32">
+        <div class="glass-panel p-12 md:p-24 max-w-5xl w-full grid md:grid-cols-2 gap-16 checkpoint">
+            <div>
+                <h2 class="title-font text-4xl mb-8">Phase 01: The Truth.</h2>
+                <div class="relative group">
+                    <div id="message-container" class="text-2xl font-light leading-relaxed text-indigo-100 min-h-[180px]">
+                        "Zohaib, some mistakes were made, and I value our bond too much to let it fade. This is my sincere step toward fixing us."
+                    </div>
+                    <div class="mt-12 flex flex-wrap gap-4">
+                        <button id="regen-btn" class="bg-white text-black px-6 py-3 rounded-full font-bold text-xs tracking-widest hover:invert transition-all">NEW AI MSG</button>
+                        <button id="speak-btn" class="border border-white/20 px-6 py-3 rounded-full font-bold text-xs tracking-widest hover:bg-white/10 transition-all">AI VOICE</button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col justify-center space-y-8">
+                <div class="p-8 border border-white/5 bg-white/5 rounded-3xl">
+                    <p class="text-[10px] tracking-widest text-indigo-400 mb-4 uppercase font-bold">AI Friendship Audit</p>
+                    <p id="ai-insight" class="text-sm text-slate-400 italic font-light">"Zohaib is a core component of your social architecture. Connection loss is critical."</p>
+                    <button id="insight-btn" class="mt-4 text-[10px] text-white/40 underline uppercase font-bold hover:text-white transition-colors">Re-analyze Bond</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: The Archive -->
+    <section class="min-h-screen flex items-center justify-center p-6 py-32">
+        <div class="max-w-4xl w-full text-center checkpoint">
+            <h2 class="title-font text-5xl md:text-7xl mb-12 text-gradient">Phase 02: Memories.</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-panel p-8 aspect-square flex flex-col items-center justify-center group hover:border-indigo-500/50 transition-colors">
+                    <span class="text-4xl mb-4 group-hover:scale-125 transition-transform">🤝</span>
+                    <p class="text-xs tracking-widest uppercase text-slate-500">Loyalty</p>
+                </div>
+                <div class="glass-panel p-8 aspect-square flex flex-col items-center justify-center group hover:border-indigo-500/50 transition-colors">
+                    <span class="text-4xl mb-4 group-hover:scale-125 transition-transform">🔥</span>
+                    <p class="text-xs tracking-widest uppercase text-slate-500">History</p>
+                </div>
+                <div class="glass-panel p-8 aspect-square flex flex-col items-center justify-center group hover:border-indigo-500/50 transition-colors">
+                    <span class="text-4xl mb-4 group-hover:scale-125 transition-transform">♾️</span>
+                    <p class="text-xs tracking-widest uppercase text-slate-500">Future</p>
+                </div>
+            </div>
+            <p class="mt-16 text-slate-500 font-light max-w-xl mx-auto leading-loose">
+                "Friendships aren't built on perfection. They're built on the ability to forgive and the courage to stay."
+            </p>
+        </div>
+    </section>
+
+    <!-- Section 4: Resolution Module -->
+    <section class="min-h-screen flex items-center justify-center p-6 py-32">
+        <div class="glass-panel p-12 md:p-20 max-w-4xl w-full text-center checkpoint">
+            <h2 class="title-font text-4xl mb-6">Phase 03: Resolution.</h2>
+            <p class="text-indigo-200/60 mb-12 italic max-w-md mx-auto">"Synthesizing a visual token of our new beginning..."</p>
+            
+            <div id="image-container" class="aspect-video w-full glass-panel overflow-hidden relative border border-white/5 flex items-center justify-center group">
+                <div id="image-placeholder" class="text-center">
+                    <button id="gen-image-btn" class="bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 px-10 py-4 rounded-full font-bold hover:bg-indigo-600 hover:text-white transition-all">Generate Peace Token</button>
+                </div>
+                <img id="peace-image" class="hidden absolute inset-0 w-full h-full object-cover" />
+                <div id="img-loading" class="hidden absolute inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center">
+                    <div class="text-center">
+                        <div class="w-12 h-12 border-2 border-white/20 border-t-indigo-500 rounded-full animate-spin mx-auto"></div>
+                        <p class="mt-4 text-[10px] tracking-widest uppercase">Rendering Forgiveness...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: The Climax -->
+    <section class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+        <div class="checkpoint">
+            <h2 class="title-font text-7xl md:text-9xl mb-12">Final Step.</h2>
+            <p class="text-slate-500 mb-20 max-w-xl mx-auto">By clicking below, you agree to unblock the past and give our friendship a fresh update.</p>
+            
+            <div class="flex flex-col md:flex-row items-center justify-center gap-12">
+                <div class="magnetic-wrap">
+                    <button id="forgive-btn" class="group relative bg-white text-black text-5xl md:text-7xl font-bold py-14 px-28 rounded-full transition-all shadow-[0_0_100px_rgba(255,255,255,0.1)] hover:shadow-[0_0_100px_rgba(255,255,255,0.4)] active:scale-90">
+                        YES.
+                        <div class="absolute -top-6 left-1/2 -translate-x-1/2 whitespace-nowrap bg-indigo-600 text-white text-[10px] py-1 px-4 rounded-full opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-widest">Unblocks & Messages Me</div>
+                    </button>
+                </div>
+                <button id="no-btn" class="text-white/10 hover:text-white/30 transition-all italic text-xl">Not ready yet...</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="p-12 text-center text-[10px] tracking-[1em] text-white/20 uppercase">
+        End of Protocol — Crafted for Zohaib
+    </footer>
+
+    <script>
+        // --- SETTINGS ---
+        const apiKey = "AIzaSyDD76Bzy6Z-6xaUGY4_h149vjx65mf5AIA"; // <--- PASTE API KEY HERE
+        const YOUR_PHONE_NUMBER = "+923075579411"; // Replace with your number (country code + number, no +)
+
+        // --- PARTICLE WARP ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        
+        function initParticles() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            for(let i=0; i<200; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    z: Math.random() * canvas.width,
+                    o: Math.random()
+                });
+            }
+        }
+
+        function drawParticles() {
+            ctx.fillStyle = "#030303";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            const v = 1 + (window.scrollY * 0.05);
+            particles.forEach(p => {
+                p.y -= (p.z / canvas.width) * (1 + window.scrollY * 0.01);
+                if(p.y < 0) p.y = canvas.height;
+                const s = (p.z / canvas.width) * 2.5;
+                ctx.fillStyle = `rgba(255,255,255,${p.o * (p.z/canvas.width)})`;
+                ctx.beginPath(); ctx.arc(p.x, p.y, s, 0, Math.PI*2); ctx.fill();
+            });
+            requestAnimationFrame(drawParticles);
+        }
+
+        // --- MAGNETIC EFFECT ---
+        document.querySelectorAll('.magnetic-wrap').forEach(wrap => {
+            wrap.addEventListener('mousemove', (e) => {
+                const b = wrap.querySelector('button');
+                const r = wrap.getBoundingClientRect();
+                const x = (e.clientX - (r.left + r.width/2)) * 0.4;
+                const y = (e.clientY - (r.top + r.height/2)) * 0.4;
+                gsap.to(b, { x, y, duration: 0.3 });
+            });
+            wrap.addEventListener('mouseleave', (e) => {
+                gsap.to(wrap.querySelector('button'), { x:0, y:0, duration: 0.6, ease: "elastic.out" });
+            });
+        });
+
+        // --- GEMINI HELPERS ---
+        async function callGemini(p, s) {
+            try {
+                const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({contents:[{parts:[{text:p}]}], systemInstruction:{parts:[{text:s}]}})
+                });
+                const d = await r.json();
+                return d.candidates[0].content.parts[0].text;
+            } catch(e) { return null; }
+        }
+
+        async function speak(text) {
+            try {
+                const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`, {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: `Kore: Hey Zohaib. ${text}` }] }],
+                        generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Kore" } } } }
+                    })
+                });
+                const d = await r.json();
+                const pcm = d.candidates[0].content.parts[0].inlineData.data;
+                const audio = new Audio(URL.createObjectURL(pcmToWav(pcm, 24000)));
+                audio.play();
+            } catch(e) {}
+        }
+
+        function pcmToWav(b64, rate) {
+            const bin = atob(b64);
+            const buf = new ArrayBuffer(44 + bin.length);
+            const view = new DataView(buf);
+            const s = (o, str) => { for(let i=0; i<str.length; i++) view.setUint8(o+i, str.charCodeAt(i)); };
+            s(0, 'RIFF'); view.setUint32(4, 36 + bin.length, true); s(8, 'WAVE'); s(12, 'fmt ');
+            view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true);
+            view.setUint32(24, rate, true); view.setUint32(28, rate*2, true); view.setUint16(32, 2, true);
+            view.setUint16(34, 16, true); s(36, 'data'); view.setUint32(40, bin.length, true);
+            for(let i=0; i<bin.length; i++) view.setUint8(44+i, bin.charCodeAt(i));
+            return new Blob([buf], {type:'audio/wav'});
+        }
+
+        // --- MAIN LOGIC ---
+        window.onload = () => {
+            initParticles();
+            drawParticles();
+
+            // Entry Anims
+            gsap.to("#hero-title", { opacity: 1, y: -20, duration: 2, ease: "power4.out" });
+            gsap.to("#hero-subtitle", { opacity: 1, y: 0, delay: 0.5, duration: 1.5 });
+            gsap.to("#hero-hint", { opacity: 1, delay: 1.2, duration: 1 });
+
+            // Scroll Observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); });
+            }, { threshold: 0.2 });
+            document.querySelectorAll('.checkpoint').forEach(el => observer.observe(el));
+
+            // Progress Bar
+            window.addEventListener('scroll', () => {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                document.getElementById("scroll-bar").style.width = scrolled + "%";
+                document.getElementById("percent-hud").innerText = Math.round(scrolled) + "%";
+            });
+
+            // Buttons
+            document.getElementById('regen-btn').addEventListener('click', async () => {
+                const box = document.getElementById('message-container');
+                box.style.opacity = 0.3;
+                const t = await callGemini("A very deep, short 1-sentence apology for Zohaib.", "Poetic friend.");
+                box.innerText = t || "Forgive the mistakes, remember the friendship.";
+                box.style.opacity = 1;
+            });
+
+            document.getElementById('speak-btn').addEventListener('click', () => {
+                speak(document.getElementById('message-container').innerText);
+            });
+
+            document.getElementById('insight-btn').addEventListener('click', async () => {
+                const ins = document.getElementById('ai-insight');
+                ins.innerText = "Processing...";
+                const t = await callGemini("One deep philosophical sentence about why Zohaib is a great friend.", "Wise AI.");
+                ins.innerText = t || "Zohaib is the missing variable in your friendship equation.";
+            });
+
+            document.getElementById('gen-image-btn').addEventListener('click', async () => {
+                const loader = document.getElementById('img-loading');
+                const img = document.getElementById('peace-image');
+                loader.classList.remove('hidden');
+                
+                try {
+                    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${apiKey}`, {
+                        method: 'POST', headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            instances: { prompt: "Hyper-realistic glowing cosmic cube of friendship, dark cinematic lighting, 8k" },
+                            parameters: { sampleCount: 1 }
+                        })
+                    });
+                    const d = await r.json();
+                    img.src = `data:image/png;base64,${d.predictions[0].bytesBase64Encoded}`;
+                    img.classList.remove('hidden');
+                } catch(e) {}
+                loader.classList.add('hidden');
+            });
+
+            // Final YES
+            document.getElementById('forgive-btn').addEventListener('click', () => {
+                const message = encodeURIComponent("Zohaib here. I scrolled through the entire thing. It was amazing. I forgive you and I've unblocked you! Let's be friends again. ❤️");
+                const isMobile = /iPhone|Android|iPad/i.test(navigator.userAgent);
+                const baseUrl = isMobile ? "whatsapp://send" : "https://web.whatsapp.com/send";
+                window.open(`${baseUrl}?phone=${YOUR_PHONE_NUMBER}&text=${message}`, '_blank');
+            });
+
+            // NO Button Escape
+            document.getElementById('no-btn').addEventListener('mouseover', (e) => {
+                gsap.to(e.target, { 
+                    x: (Math.random()-0.5) * 600, 
+                    y: (Math.random()-0.5) * 400, 
+                    duration: 0.2 
+                });
+            });
+        };
+    </script>
+</body>
+</html>
